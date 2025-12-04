@@ -1,0 +1,14 @@
+names:
+- Metal
+- Metal corroido
+- Tornillo sin corrosion
+nc: 3
+roboflow:
+  license: CC BY 4.0
+  project: corrosion-metal
+  url: https://universe.roboflow.com/corrosion-metal-y-corrosion/corrosion-metal/dataset/3
+  version: 3
+  workspace: corrosion-metal-y-corrosion
+test: ../test/images
+train: ../train/images
+val: ../valid/images

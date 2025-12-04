@@ -1,0 +1,55 @@
+# ========================================
+# FRONTEND (ignore node_modules, build output)
+# ========================================
+rustguard-frontend/node_modules/
+rustguard-frontend/dist/
+rustguard-frontend/build/
+rustguard-frontend/.vite/
+rustguard-frontend/.cache/
+
+# ========================================
+# BACKEND (ignore large ML files & datasets)
+# ========================================
+backend/app/ml_models/
+backend/dataset/
+backend/yolov8n.pt
+*.pt
+*.pth
+*.h5
+*.onnx
+*.weights
+*.tflite
+
+# ========================================
+# PYTHON ENV & CACHE
+# ========================================
+venv/
+__pycache__/
+*.pyc
+
+# ========================================
+# ENVIRONMENT VARIABLES
+# ========================================
+.env
+.env.local
+.env.*
+!.env.example
+
+# ========================================
+# SYSTEM / EDITOR / MISC FILES
+# ========================================
+.DS_Store
+Thumbs.db
+.history/
+*.log
+
+# lock files (optional)
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+
+# uncomment only if large & unwanted
+rustguard-frontend/public/uploads/
+backend/logs/
+# ========================================
