@@ -53,3 +53,5 @@ yarn.lock
 rustguard-frontend/public/uploads/
 backend/logs/
 # ========================================
+*.zip
+
