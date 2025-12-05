@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import PageWrapper from "../components/PageWrapper";
 
 export default function Detection() {
   const [image, setImage] = useState(null);
@@ -10,7 +11,7 @@ export default function Detection() {
   const handleImage = (e) => {
     const file = e.target.files[0];
     setImage(file);
-    setPreview(URL.createObjectURL(file));  // preview image
+    setPreview(URL.createObjectURL(file));
   };
 
   const uploadImage = async () => {
@@ -23,7 +24,7 @@ export default function Detection() {
 
     try {
       const res = await axios.post(
-        "http://127.0.0.1:8000/api/detection/detect",  // <-- FIXED URL
+        "http://127.0.0.1:8000/api/detection/detect",
         form,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -39,52 +40,59 @@ export default function Detection() {
   };
 
   return (
-    <div>
+    <PageWrapper>
       <h1 className="gradient-title">Rust Detection</h1>
-      <p style={{opacity:0.7}}>Upload a metal surface image to detect rust severity</p>
+      <p style={{ opacity: 0.7 }}>Upload a metal surface image to detect rust severity</p>
 
-      {/* File Input */}
-      <input 
-        type="file" 
-        accept="image/*" 
-        onChange={handleImage} 
-        style={{marginTop:20}}
-      />
+      <div className="glass-panel" style={{ marginTop: 24 }}>
 
-      {/* Image Preview */}
-      {preview && (
-        <div style={{marginTop:20}}>
-          <img 
-            src={preview} 
-            alt="Preview" 
-            style={{width:"350px",borderRadius:"10px"}} 
-          />
-        </div>
-      )}
+        <input type="file" accept="image/*" onChange={handleImage} style={{ marginTop: 15 }} />
 
-      {/* Upload + Detect Button */}
-      <button onClick={uploadImage} className="btn-primary" style={{marginTop:20}}>
-  {loading ? "Processing..." : "Detect Rust"}
-</button>
+        {preview && (
+          <div style={{ marginTop: 20 }}>
+            <img src={preview} style={{ width: "350px", borderRadius: "10px" }} />
+          </div>
+        )}
 
+        <button onClick={uploadImage} className="btn-primary" style={{ marginTop: 20 }}>
+          {loading ? "Processing..." : "Detect Rust"}
+        </button>
 
-      {/* JSON Result Display */}
-      {result && (
-        <div style={{marginTop:30}}>
-          <h2>Detection Result:</h2>
-          <pre style={{
-            background:"rgba(255,255,255,0.05)",
-            padding:15,
-            borderRadius:10,
-            marginTop:10,
-            overflow:"auto",
-            maxHeight:"250px"
-          }}>
-            {JSON.stringify(result, null, 2)}
-          </pre>
-        </div>
-      )}
-    </div>
+        {result && (
+          <div style={{ marginTop: 35 }}>
+            <h2 className="gradient-title">Detection Result</h2>
+
+            <div className="result-box">
+
+              {/* RESULT CARD 1 - SEVERITY */}
+              <div className="result-card">
+                <p className="result-title">Severity</p>
+                <p className="result-value" style={{
+                  color: result.severity === "high" ? "#ef4444" :
+                         result.severity === "medium" ? "#f59e0b" :
+                         result.severity === "low" ? "#22c55e" :
+                         "#9ca3af"
+                }}>
+                  {result.severity.toUpperCase()}
+                </p>
+              </div>
+
+              {/* RESULT CARD 2 - SCORE */}
+              <div className="result-card">
+                <p className="result-title">Severity Score</p>
+                <p className="result-value">{result.severity_score}</p>
+              </div>
+
+              {/* RESULT CARD 3 - BOX COUNT */}
+              <div className="result-card">
+                <p className="result-title">Detected Rust Regions</p>
+                <p className="result-value">{result.boxes.length}</p>
+              </div>
+
+            </div>
+          </div>
+        )}
+      </div>
+    </PageWrapper>
   );
 }
-
